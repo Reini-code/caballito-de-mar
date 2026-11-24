@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#031b2c" />
+  <meta name="description" content="Un pequeño rincón del océano, hecho con cariño para una caballita de mar muy especial." />
+  <meta property="og:title" content="Un pedacito de océano para ti 🫧" />
+  <meta property="og:description" content="Hay sonrisas que hacen brillar incluso el fondo del mar." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='86'%3E%F0%9F%AB%A7%3C/text%3E%3C/svg%3E" />
+  <title>Un pedacito de océano para ti 🫧</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module" src="ocean.js"></script>
+</head>
+<body>
+  <div class="world" aria-hidden="true">
+    <div class="ocean-gradient"></div>
+    <div class="surface-light"></div>
+    <div class="caustics"></div>
+    <div class="sun-column"></div>
+    <div class="water-grain"></div>
+    <div class="vignette"></div>
+    <div id="three-container"></div>
+    <!-- Ilustración de respaldo: la página se ve bonita aunque falle WebGL o la conexión al CDN. -->
+    <svg class="sea-illustration" viewBox="0 0 640 720" role="presentation" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="seahorseMain" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe8c3"/><stop offset=".36" stop-color="#ffc0bb"/><stop offset=".84" stop-color="#e986a9"/><stop offset="1" stop-color="#b36799"/></linearGradient>
+        <radialGradient id="belly" cx=".2" cy=".2" r=".9"><stop stop-color="#fff3d7"/><stop offset="1" stop-color="#f6b6af"/></radialGradient>
+        <radialGradient id="bubble" cx=".2" cy=".15"><stop stop-color="#e1ffff" stop-opacity=".48"/><stop offset=".38" stop-color="#9ff2ff" stop-opacity=".07"/><stop offset=".90" stop-color="#a0eaff" stop-opacity=".03"/><stop offset="1" stop-color="#d4faff" stop-opacity=".72"/></radialGradient>
+        <linearGradient id="coral" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7b8aa"/><stop offset="1" stop-color="#c972af"/></linearGradient>
+        <filter id="bigGlow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="18"/></filter>
+        <filter id="softShadow"><feGaussianBlur stdDeviation="7"/></filter>
+      </defs>
+      <ellipse cx="322" cy="360" rx="185" ry="230" fill="#98fff1" opacity=".12" filter="url(#bigGlow)"/>
+      <g class="fallback-bubbles">
+        <circle cx="130" cy="125" r="14" fill="url(#bubble)" stroke="#c6f8ff" stroke-opacity=".3" />
+        <circle cx="488" cy="94" r="19" fill="url(#bubble)" stroke="#c6f8ff" stroke-opacity=".3" />
+        <circle cx="548" cy="273" r="10" fill="url(#bubble)" stroke="#c6f8ff" stroke-opacity=".3" />
+        <circle cx="120" cy="385" r="8" fill="url(#bubble)" stroke="#c6f8ff" stroke-opacity=".3" />
+        <circle cx="498" cy="490" r="26" fill="url(#bubble)" stroke="#c6f8ff" stroke-opacity=".3" />
+        <circle cx="182" cy="595" r="17" fill="url(#bubble)" stroke="#c6f8ff" stroke-opacity=".3" />
+      </g>
+      <g transform="translate(35 6)">
+        <!-- cola espiral -->
+        <path d="M320 414 C321 458 368 473 397 489 C433 507 435 551 402 569 C370 586 337 568 339 541 C340 521 361 511 378 522 C392 531 387 548 374 548" fill="none" stroke="#c37c9f" stroke-width="45" stroke-linecap="round" opacity=".4" filter="url(#softShadow)"/>
+        <path d="M320 414 C321 458 368 473 397 489 C433 507 435 551 402 569 C370 586 337 568 339 541 C340 521 361 511 378 522 C392 531 387 548 374 548" fill="none" stroke="url(#seahorseMain)" stroke-width="32" stroke-linecap="round"/>
+        <!-- aleta trasera -->
+        <path d="M369 289 C451 240 449 324 403 335 C469 354 424 395 371 359 Z" fill="#dbb0db" opacity=".72" stroke="#f8d7e9" stroke-width="3"/>
+        <path d="M375 325 L437 281 M379 337 L446 322 M379 350 L434 366" fill="none" stroke="#ffeaf3" opacity=".53" stroke-width="3"/>
+        <!-- torso y vientre -->
+        <path d="M300 184 C354 177 402 225 399 308 C398 363 355 432 322 450 C261 474 214 405 219 331 C220 280 253 242 279 211 Z" fill="url(#seahorseMain)"/>
+        <ellipse cx="289" cy="340" rx="59" ry="86" transform="rotate(-10 289 340)" fill="url(#belly)" opacity=".85"/>
+        <path d="M246 308 Q282 327 355 321 M241 334 Q289 354 359 347 M248 359 Q298 379 355 371 M264 386 Q303 405 344 394" stroke="#c66e92" stroke-width="6" stroke-linecap="round" fill="none" opacity=".32" />
+        <!-- cuello -->
+        <path d="M301 233 C284 209 262 204 270 166 C278 123 338 127 355 164" fill="none" stroke="url(#seahorseMain)" stroke-width="59" stroke-linecap="round"/>
+        <!-- cabeza -->
+        <path d="M288 103 C325 90 355 106 374 138 C382 156 360 191 324 202 C287 205 247 180 251 145 C253 125 264 110 288 103 Z" fill="url(#seahorseMain)"/>
+        <!-- hocico -->
+        <path d="M265 159 Q223 166 185 154" stroke="url(#seahorseMain)" stroke-width="25" stroke-linecap="round" fill="none"/>
+        <ellipse cx="184" cy="155" rx="17" ry="15" fill="#f1a2af"/>
+        <path d="M176 165 Q185 173 197 165" fill="none" stroke="#a85880" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- cresta -->
+        <path d="M297 108 L297 68 Q311 56 322 66 L329 102 L345 71 Q359 69 363 85 L358 124" fill="url(#seahorseMain)" stroke="#ffd5c5" stroke-width="3" stroke-linejoin="round"/>
+        <!-- ojito con luz -->
+        <circle cx="294" cy="147" r="18" fill="#fff7ea"/>
+        <circle cx="290" cy="146" r="10" fill="#24365a"/>
+        <circle cx="287" cy="142" r="4.4" fill="#fff"/>
+        <circle cx="316" cy="174" r="17" fill="#ff86a2" opacity=".4"/>
+        <!-- pequeña aleta lateral -->
+        <path d="M361 237 Q417 215 420 244 Q410 270 365 264 Z" fill="#f8c4d1" opacity=".8" />
+      </g>
+      <g opacity=".9">
+        <path d="M62 716 Q70 626 94 566 Q113 634 97 716" fill="url(#coral)"/>
+        <path d="M88 672 Q45 633 39 606 M88 667 Q131 619 128 581 M75 693 Q26 677 24 648" stroke="url(#coral)" stroke-width="18" fill="none" stroke-linecap="round" />
+        <path d="M570 720 Q554 645 551 584 M572 667 Q607 621 609 586 M560 689 Q524 652 522 632" stroke="#8dddd0" stroke-width="17" fill="none" stroke-linecap="round"/>
+      </g>
+    </svg>
+    <div class="world-bubbles" id="css-bubbles"></div>
+    <div class="seabed-silhouette"></div>
+  </div>
+
+  <div class="page">
+    <header class="topbar">
+      <div class="brand"><span class="brand-icon" aria-hidden="true">✺</span> <span>Un rincón del océano</span></div>
+      <div class="top-note"><span class="light-dot"></span> hecho especialmente para ti</div>
+    </header>
+
+    <main class="hero">
+      <section class="hero-copy" aria-label="Un mensaje especial">
+        <div class="eyebrow"><span class="eyebrow-sparkle">✧</span> PARA UNA CABALLITA DE MAR <span class="eyebrow-sparkle">✧</span></div>
+        <h1>Hay sonrisas que hacen brillar hasta el <em>fondo del mar.</em></h1>
+        <p class="lead">Y entre tantas olas, qué bonito que exista una sonrisa como la tuya. <span class="emoji" aria-hidden="true">🫧</span></p>
+        <div class="hero-actions">
+          <button class="primary-button" id="open-letter" type="button"><span class="shell" aria-hidden="true">🐚</span> Te dejé un secretito <span class="button-arrow" aria-hidden="true">↗</span></button>
+          <button class="bubble-button" id="make-bubbles" type="button" aria-label="Soltar burbujas"><span aria-hidden="true">✦</span> Haz una burbuja</button>
+        </div>
+        <div class="small-promise"><span class="tiny-heart" aria-hidden="true">♡</span> Sin prisa, sin ruido. Solo algo bonito para sonreír.</div>
+      </section>
+
+      <div class="sea-label" aria-hidden="true">
+        <span class="sea-label-line"></span>
+        <span>una pequeña habitante<br/>de este gran océano</span>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-left">hecho con cariño, arena y un poquito de magia <span aria-hidden="true">✳</span></div>
+      <div class="footer-hint"><span aria-hidden="true">↔</span> <span>desliza para explorar el mar</span></div>
+    </footer>
+  </div>
+
+  <div class="letter-overlay" id="letter-overlay" aria-hidden="true">
+    <div class="letter-backdrop" id="letter-backdrop"></div>
+    <section class="letter" role="dialog" aria-modal="true" aria-labelledby="letter-title" tabindex="-1">
+      <button class="close-letter" id="close-letter" type="button" aria-label="Cerrar carta">×</button>
+      <div class="letter-top">✦ &nbsp; UN MENSAJE EN UNA BOTELLA &nbsp; ✦</div>
+      <div class="letter-shell" aria-hidden="true">🐚</div>
+      <h2 id="letter-title">Una cosita para ti</h2>
+      <p>Dicen que los caballitos de mar se sujetan de las algas cuando la corriente es fuerte.</p>
+      <p>Ojalá, incluso en los días más agitados, encuentres siempre un lugarcito de calma, una razón para reír y muchos momentos bonitos.</p>
+      <p class="letter-special">Porque hay personas que hacen del mundo un lugar más dulce… y tú eres una de ellas.</p>
+      <div class="letter-sign">con un poquito de cariño <span aria-hidden="true">♡</span></div>
+      <div class="letter-bottom" aria-hidden="true">〰︎ 𓇼 〰︎</div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
